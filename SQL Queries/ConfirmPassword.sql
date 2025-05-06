@@ -1,0 +1,3 @@
+ALTER TABLE Customer
+ADD ConfirmPassword VARCHAR(30) NOT NULL DEFAULT '';
+
