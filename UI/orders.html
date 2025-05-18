@@ -5,17 +5,6 @@
   <title>Your Orders</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #ece9e6, #ffffff);
-      color: #333;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
     /* Navbar styling */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -165,17 +154,20 @@ body {
   user-select: none;
 }
 
-    .filter-container {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+.filter-container {
+  margin: 25px auto;
+  max-width: 95%;
+  border: 50px;
+}
 
-    .filter-container select {
-      padding: 8px 12px;
-      font-size: 15px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
+.filter-container select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
 
     .orders-container {
       margin: 0 auto;

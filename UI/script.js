@@ -138,14 +138,16 @@ function togglePaymentFields() {
 }
 
 function makePayment() {
+  window.location.href = 'order-confirmation.html';
+
   alert('Payment Successful');
   localStorage.setItem('orders', localStorage.getItem('cart'));
   localStorage.removeItem('cart');
-  window.location.href = 'orders.html';
+  window.location.href = 'order-confirmation.html';
 }
 
 function goBackToCart() {
-  window.location.href = 'cart.html';
+  window.location.href = 'order-confirmation.html';
 }
 
 // Orders Page
@@ -265,3 +267,120 @@ document.getElementById("editAddressBtn").addEventListener("click", () => {
     document.getElementById("cartAddress").textContent = newAddress.trim();
   }
 });
+
+
+// --- REGISTER PAGE LOGIC ---
+if (window.location.pathname.includes('register.html')) {
+  document.getElementById('registerForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('regName').value;
+    const customerId = document.getElementById('regCustomerId').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+
+    const user = { name, customerId, email, password };
+
+    // Save user in localStorage (in real world: use backend and DB)
+    localStorage.setItem('registeredUser', JSON.stringify(user));
+
+    alert('Registration successful! Please login.');
+    window.location.href = 'login.html';
+  });
+}
+
+// --- LOGIN PAGE LOGIC ---
+if (window.location.pathname.includes('login.html')) {
+  document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const loginId = document.getElementById('loginId').value;
+    const loginPassword = document.getElementById('loginPassword').value;
+
+    const registeredUser = JSON.parse(localStorage.getItem('registeredUser'));
+
+    if (registeredUser && registeredUser.customerId === loginId && registeredUser.password === loginPassword) {
+      // Login successful – store session
+      const sessionUser = { name: registeredUser.name, customerId: registeredUser.customerId, email: registeredUser.email };
+      localStorage.setItem('loggedInUser', JSON.stringify(sessionUser));
+      window.location.href = 'profile.html';
+    } else {
+      alert('Invalid Customer ID or Password.');
+    }
+  });
+}
+
+// --- PROFILE PAGE LOGIC ---
+// script.js
+
+// Generate a unique customer ID (only if not already set)
+function getOrCreateCustomerId() {
+  let customerId = localStorage.getItem("customerId");
+  if (!customerId) {
+    customerId = "CUST-" + Date.now();
+    localStorage.setItem("customerId", customerId);
+  }
+  return customerId;
+}
+
+// Load profile data from localStorage
+function loadProfile() {
+  const name = localStorage.getItem("username") || "Unknown";
+  const email = localStorage.getItem("email") || "N/A";
+  const customerId = getOrCreateCustomerId();
+
+  document.getElementById("profileName").textContent = name;
+  document.getElementById("profileEmail").textContent = email;
+  document.getElementById("profileCustomerId").textContent = customerId;
+}
+
+// Dummy update password function
+function updatePassword() {
+  alert("Redirecting to update password page (not implemented yet).");
+}
+
+// Sign out user
+function signOut() {
+  localStorage.clear();
+  alert("You have been signed out.");
+  window.location.href = "login.html"; // Redirect to login page
+}
+
+// Load profile on page load
+window.onload = loadProfile;
+
+
+
+
+// prifile
+// Load profile details
+window.onload = function () {
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!user) {
+    alert("No user logged in.");
+    window.location.href = "register.html";
+    return;
+  }
+
+  document.getElementById('profileName').textContent = user.name;
+  document.getElementById('profileCustomerId').textContent = user.customerId;
+  document.getElementById('profileEmail').textContent = user.email;
+};
+
+function updatePassword() {
+  const newPassword = prompt("Enter your new password:");
+  
+  if (!newPassword) {
+    alert("Password not changed.");
+    return;
+  }
+
+  alert("Password updated successfully to: " + newPassword);
+}
+
+
+function signOut() {
+  localStorage.removeItem("loggedInUser");
+  window.location.href = "login.html";
+}
+

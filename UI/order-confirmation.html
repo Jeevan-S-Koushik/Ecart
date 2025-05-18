@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order Confirmation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #4CAF50;
+    }
+    .invoice {
+      margin-top: 2rem;
+    }
+    .invoice p {
+      line-height: 1.6;
+    }
+    .highlight {
+      font-weight: bold;
+    }
+    .order-id {
+      font-size: 1.2rem;
+      color: #007BFF;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 2rem;
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .back-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Order Confirmation</h1>
+
+    <div class="invoice">
+      <p><span class="highlight">Order ID:</span> <span id="orderId" class="order-id"></span></p>
+      <p><span class="highlight">Name:</span> <span id="userName"></span></p>
+      <p><span class="highlight">Email:</span> <span id="userEmail"></span></p>
+      <p><span class="highlight">Date:</span> <span id="orderDate"></span></p>
+      <p><span class="highlight">Amount Paid:</span> ₹<span id="orderAmount"></span></p>
+    </div>
+
+    <a href="cart.html" class="back-btn">Back to Home</a>
+  </div>
+
+
+  <script>
+    // Generate unique order ID using timestamp
+    function generateOrderId() {
+      return "ORD-" + Date.now();
+    }
+  
+    function getFormattedDate() {
+      const date = new Date();
+      return date.toLocaleString();
+    }
+  
+    // Get data from localStorage
+    const name = localStorage.getItem("username") || "Customer";
+    const email = localStorage.getItem("email") || "N/A";
+    const amount = localStorage.getItem("orderAmount") || "0.00";
+  
+    // Populate DOM
+    const orderId = generateOrderId();
+    const orderDate = getFormattedDate();
+  
+    document.getElementById("orderId").textContent = orderId;
+    document.getElementById("userName").textContent = name;
+    document.getElementById("userEmail").textContent = email;
+    document.getElementById("orderDate").textContent = orderDate;
+    document.getElementById("orderAmount").textContent = amount;
+  
+    // Save order
+    const order = {
+      id: orderId,
+      name,
+      email,
+      amount,
+      date: orderDate
+    };
+    const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+    orders.push(order);
+    localStorage.setItem("orders", JSON.stringify(orders));
+  </script>
+  
+</body>
+</html>

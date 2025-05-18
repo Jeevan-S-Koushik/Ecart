@@ -15,7 +15,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+#center{
+  padding-left: 40%;
+}
 /* Container Styles */
 .form-container,
 .cart-container,
