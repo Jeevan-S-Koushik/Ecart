@@ -51,11 +51,22 @@ if (profileIcon) {
 
 // Sample product list
 const products = [
-  { id: 1, name: 'Smartphone', category: 'electronics' },
-  { id: 2, name: 'Laptop', category: 'electronics' },
-  { id: 3, name: 'T-Shirt', category: 'clothing' },
-  { id: 4, name: 'Jeans', category: 'clothing' },
+  { id: 1, name: 'Smartphone', category: 'mobiles' },
+  { id: 2, name: 'Tablet', category: 'mobiles' },
+  { id: 3, name: 'Laptop', category: 'electronics' },
+  { id: 4, name: 'Bluetooth Speaker', category: 'electronics' },
+  { id: 5, name: 'LED TV', category: 'appliances' },
+  { id: 6, name: 'Refrigerator', category: 'appliances' },
+  { id: 7, name: 'T-Shirt', category: 'fashion' },
+  { id: 8, name: 'Jeans', category: 'fashion' },
+  { id: 9, name: 'Lipstick', category: 'beauty' },
+  { id: 10, name: 'Perfume', category: 'beauty' },
+  { id: 11, name: 'Cookware Set', category: 'home-kitchen' },
+  { id: 12, name: 'Bedsheet', category: 'home-kitchen' },
+  { id: 13, name: 'Sofa', category: 'furniture' },
+  { id: 14, name: 'Dining Table', category: 'furniture' },
 ];
+
 
 const productListEl = document.getElementById('productList');
 const categoryFilter = document.getElementById('categoryFilter');

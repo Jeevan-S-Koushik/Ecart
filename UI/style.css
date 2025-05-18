@@ -6,18 +6,71 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #ece9e6, #ffffff);
+  background: linear-gradient(135deg, #dff0ff, #ffffff);
   color: #333;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-#center{
+
+#center {
   padding-left: 40%;
 }
+
+/* Header */
+#header {
+  background: #222;
+  color: #eee;
+  padding: 20px 15px;
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+
+/* Navigation Bar */
+#navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 30px;
+  background-color: #181818;
+}
+
+#navbar .nav-left a {
+  color: #eee;
+  margin-right: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#navbar .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #eee;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+#profileIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #eee;
+  transition: border-color 0.3s ease;
+}
+
+#profileIcon:hover {
+  border-color: #007bff;
+}
+
 /* Container Styles */
 .form-container,
 .cart-container,
@@ -30,9 +83,7 @@ body {
   padding: 30px 35px;
   background: #fff;
   border-radius: 16px;
-  box-shadow:
-    0 4px 15px rgba(0, 0, 0, 0.1),
-    0 2px 8px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.07);
   transition: box-shadow 0.3s ease;
 }
 
@@ -42,9 +93,7 @@ body {
 .orders-container:hover,
 .profile-container:hover,
 .ack-container:hover {
-  box-shadow:
-    0 8px 30px rgba(0, 0, 0, 0.15),
-    0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Form Elements */
@@ -99,19 +148,6 @@ button:active {
   box-shadow: 0 4px 10px rgba(0, 86, 179, 0.25);
 }
 
-/* Header */
-#header {
-  background: #222;
-  color: #eee;
-  padding: 20px 15px;
-  text-align: center;
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  user-select: none;
-}
-
 /* Product Search Section */
 .product-search {
   padding: 25px 20px;
@@ -129,58 +165,48 @@ button:active {
 }
 
 .product-item {
-  background: #fff;
-  border-radius: 14px;
-  padding: 20px 18px;
-  width: 220px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  padding: 22px 20px;
+  flex: 1 1 calc(20% - 19.2px); /* 5 items per row with gap compensation */
+  min-width: 180px;  /* Prevent shrinking too small */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
   cursor: pointer;
   font-weight: 600;
-  color: #222;
+  color: #111;
 }
 
 .product-item:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-}
-/* ........................ */
-/* Navigation Bar */
-#navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 30px;
-  background-color: #181818;
+  transform: scale(1.05) translateY(-8px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
 }
 
-#navbar .nav-left a {
-  color: #eee;
-  margin-right: 20px;
-  text-decoration: none;
-  font-weight: bold;
+/* Responsive product widths */
+@media (max-width: 1200px) {
+  .product-item {
+    flex: 1 1 calc(25% - 18px); /* 4 items per row */
+  }
 }
 
-#navbar .nav-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #eee;
-  font-weight: 600;
-  font-size: 1rem;
+@media (max-width: 900px) {
+  .product-item {
+    flex: 1 1 calc(33.333% - 16px); /* 3 items per row */
+  }
 }
 
-#profileIcon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid #eee;
-  transition: border-color 0.3s ease;
+@media (max-width: 600px) {
+  .product-item {
+    flex: 1 1 calc(50% - 12px); /* 2 items per row */
+  }
 }
 
-#profileIcon:hover {
-  border-color: #007bff;
+@media (max-width: 400px) {
+  .product-item {
+    flex: 1 1 100%; /* 1 item per row */
+  }
 }
-
