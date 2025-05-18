@@ -1,16 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
   <title>Your Orders</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ece9e6, #ffffff);
+      color: #333;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Navbar styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #ece9e6, #ffffff);
+  color: #333;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+#navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 30px;
+  background-color: #181818;
+}
+
+#navbar .nav-left a {
+  color: #eee;
+  margin-right: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#navbar .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #eee;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+#profileIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #eee;
+  transition: border-color 0.3s ease;
+}
+
+#profileIcon:hover {
+  border-color: #007bff;
+}
+
+
+
+/* Cart container */
+.cart-container {
+  max-width: 600px;
+  margin: 80px auto 50px;
+  padding: 20px 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Cart items */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.product-info {
+  flex: 1;
+  font-weight: 600;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 20px;
+}
+
+.quantity-controls button {
+  width: 28px;
+  height: 28px;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid #007bff;
+  background: white;
+  color: #007bff;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.quantity-controls button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.remove-btn {
+  background: #dc3545;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover {
+  background-color: #a71d2a;
+}
+
+#editAddressBtn, #proceedBtn {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+#editAddressBtn:hover, #proceedBtn:hover {
+  background-color: #0056b3;
+}
+
+/* Header */
+#header {
+  background: #222;
+  color: #eee;
+  padding: 18px;
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+
+    .filter-container {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .filter-container select {
+      padding: 8px 12px;
+      font-size: 15px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .orders-container {
+      margin: 0 auto;
+      max-width: 95%;
+    }
+
+    table {
+      width: 100%;
+      margin: 20px 0;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      display: none;
+    }
+
+    table.visible {
+      display: table;
+    }
+
+    th, td {
+      border: 1px solid #e0e0e0;
+      padding: 12px 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: 600;
+    }
+
+    button {
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background-color: #007BFF;
+      color: #fff;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-  <div id="header"></div>
-  <div class="orders-container">
-    <h2>Your Orders</h2>
-    <div id="ordersList"></div>
+
+  <div id="navbar">
+    <div class="nav-left">
+      <a href="home.html">Home</a>
+      <a href="cart.html">My Cart</a>
+      <a href="orders.html">My Orders</a>
+    </div>
+    <div class="nav-right">
+      <span id="welcomeUser">Welcome, Guest</span>
+      <!-- <img id="profileIcon" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" /> -->
+      <a href="profile.html">
+        <img id="profileIcon" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" style="cursor: pointer;" />
+      </a>
+      
+    </div>
   </div>
-  <script src="script.js"></script>
+  <div id="header">Your Cart</div>
+
+  <div class="filter-container">
+    <label for="orderFilter"><strong>Filter Orders:</strong></label>
+    <select id="orderFilter">
+      <option value="confirmed">Confirmed</option>
+      <option value="inTransit">In Transit</option>
+      <option value="delivered">Delivered</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
+  </div>
+
+  <div class="orders-container">
+
+    <!-- Confirmed -->
+    <table id="confirmed" class="order-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Ordered Item</th>
+          <th>Ordered Date</th>
+          <th>Arriving Date</th>
+          <th>Address</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#101</td>
+          <td>Laptop</td>
+          <td>2025-05-01</td>
+          <td>2025-05-10</td>
+          <td>123 Main Street</td>
+          <td><button>Update</button></td>
+          <td><button>Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- In Transit -->
+    <table id="inTransit" class="order-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Ordered Item</th>
+          <th>Ordered Date</th>
+          <th>Arriving Date</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#102</td>
+          <td>Phone</td>
+          <td>2025-05-05</td>
+          <td>2025-05-12</td>
+          <td>123 Main Street</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Delivered -->
+    <table id="delivered" class="order-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Ordered Item</th>
+          <th>Ordered Date</th>
+          <th>Delivered Date</th>
+          <th>Address</th>
+          <th>Return</th>
+          <th>Feedback</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#103</td>
+          <td>Book</td>
+          <td>2025-04-25</td>
+          <td>2025-05-02</td>
+          <td>123 Main Street</td>
+          <td><button>Return</button></td>
+          <td><button>Feedback</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Cancelled -->
+    <table id="cancelled" class="order-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Ordered Item</th>
+          <th>Ordered Date</th>
+          <th>Cancelled Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#104</td>
+          <td>Headphones</td>
+          <td>2025-04-15</td>
+          <td>2025-04-17</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const username = JSON.parse(localStorage.getItem("registeredUser"))?.name || "Guest";
+    document.getElementById("welcomeUser").textContent = `Welcome, ${username}`;
+
+    document.getElementById("profileIcon").addEventListener("click", () => {
+      window.location.href = "profile.html";
+    });
+
+    const orderFilter = document.getElementById("orderFilter");
+    const tables = document.querySelectorAll(".order-table");
+
+    function showTable(categoryId) {
+      tables.forEach(table => {
+        table.classList.remove("visible");
+        if (table.id === categoryId) {
+          table.classList.add("visible");
+        }
+      });
+    }
+
+    orderFilter.addEventListener("change", function () {
+      showTable(this.value);
+    });
+
+    showTable("confirmed"); // default
+  </script>
 </body>
 </html>

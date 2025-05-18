@@ -1,0 +1,148 @@
+/* Navbar styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #ece9e6, #ffffff);
+    color: #333;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 30px;
+    background-color: #181818;
+  }
+  
+  #navbar .nav-left a {
+    color: #eee;
+    margin-right: 20px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  #navbar .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #eee;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  #profileIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #eee;
+    transition: border-color 0.3s ease;
+  }
+  
+  #profileIcon:hover {
+    border-color: #007bff;
+  }
+  
+  
+  
+  /* Cart container */
+  .cart-container {
+    max-width: 600px;
+    margin: 80px auto 50px;
+    padding: 20px 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Cart items */
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+  
+  .product-info {
+    flex: 1;
+    font-weight: 600;
+  }
+  
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 20px;
+  }
+  
+  .quantity-controls button {
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px solid #007bff;
+    background: white;
+    color: #007bff;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+  }
+  
+  .quantity-controls button:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .remove-btn {
+    background: #dc3545;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  .remove-btn:hover {
+    background-color: #a71d2a;
+  }
+  
+  #editAddressBtn, #proceedBtn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+  }
+  
+  #editAddressBtn:hover, #proceedBtn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Header */
+#header {
+    background: #222;
+    color: #eee;
+    padding: 18px;
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    user-select: none;
+  }

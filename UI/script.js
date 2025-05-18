@@ -3,7 +3,8 @@ const registerForm = document.getElementById('registerForm');
 if (registerForm) {
   registerForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    const id = 'C' + Math.floor(Math.random() * 10000);
+
+    const id = Math.floor(1000000 + Math.random() * 9000000).toString();
     const user = {
       id,
       name: document.getElementById('name').value,
@@ -11,6 +12,7 @@ if (registerForm) {
       address: document.getElementById('address').value,
       password: document.getElementById('password').value,
     };
+
     localStorage.setItem('registeredUser', JSON.stringify(user));
     window.location.href = 'acknowledgment.html';
   });
@@ -24,6 +26,7 @@ if (loginForm) {
     const user = JSON.parse(localStorage.getItem('registeredUser'));
     const enteredId = document.getElementById('loginId').value;
     const enteredPass = document.getElementById('loginPassword').value;
+
     if (user && user.id === enteredId && user.password === enteredPass) {
       sessionStorage.setItem('currentUser', JSON.stringify(user));
       window.location.href = 'home.html';
@@ -33,52 +36,84 @@ if (loginForm) {
   });
 }
 
-// Home Page: Product List
-const productList = document.getElementById('productList');
-if (productList) {
-  const products = [
-    { id: 1, name: 'Smartphone', category: 'electronics' },
-    { id: 2, name: 'T-Shirt', category: 'clothing' },
-    { id: 3, name: 'Laptop', category: 'electronics' },
-  ];
-  const filter = document.getElementById('categoryFilter');
-  const renderProducts = (cat) => {
-    productList.innerHTML = '';
-    products.filter(p => cat === 'all' || p.category === cat).forEach(p => {
-      const div = document.createElement('div');
-      div.className = 'product-item';
-      div.innerHTML = `<h4>${p.name}</h4><p>${p.category}</p><button onclick="addToCart(${p.id})">Add to Cart</button>`;
-      productList.appendChild(div);
-    });
-  };
-  renderProducts('all');
-  filter.addEventListener('change', () => renderProducts(filter.value));
+// Home Page: Show welcome message & product logic
+if (document.getElementById('welcomeUser')) {
+  const user = JSON.parse(sessionStorage.getItem('currentUser'));
+  document.getElementById('welcomeUser').textContent = `Welcome, ${user?.name || 'Guest'}`;
 }
 
-function addToCart(id) {
+const profileIcon = document.getElementById('profileIcon');
+if (profileIcon) {
+  profileIcon.addEventListener('click', () => {
+    window.location.href = 'profile.html';
+  });
+}
+
+// Sample product list
+const products = [
+  { id: 1, name: 'Smartphone', category: 'electronics' },
+  { id: 2, name: 'Laptop', category: 'electronics' },
+  { id: 3, name: 'T-Shirt', category: 'clothing' },
+  { id: 4, name: 'Jeans', category: 'clothing' },
+];
+
+const productListEl = document.getElementById('productList');
+const categoryFilter = document.getElementById('categoryFilter');
+
+function displayProducts(category = 'all') {
+  if (!productListEl) return;
+
+  productListEl.innerHTML = '';
+  const filtered = category === 'all'
+    ? products
+    : products.filter(p => p.category === category);
+
+  filtered.forEach(product => {
+    const div = document.createElement('div');
+    div.className = 'product-item';
+    div.textContent = product.name;
+    div.addEventListener('click', () => addToCart(product));
+    productListEl.appendChild(div);
+  });
+}
+
+function addToCart(product) {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const item = { id, qty: 1 };
-  cart.push(item);
-  localStorage.setItem('cart', JSON.stringify(cart));
-  alert('Added to cart');
+
+  if (!cart.find(item => item.id === product.id)) {
+    cart.push({ ...product, qty: 1 });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${product.name} added to cart!`);
+  } else {
+    alert(`${product.name} is already in the cart.`);
+  }
+}
+
+if (categoryFilter) {
+  categoryFilter.addEventListener('change', e => {
+    displayProducts(e.target.value);
+  });
+  displayProducts();
 }
 
 // Cart Page
 if (document.getElementById('cartItems')) {
   const user = JSON.parse(sessionStorage.getItem('currentUser'));
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const products = {
+  const productsMap = {
     1: 'Smartphone',
     2: 'T-Shirt',
     3: 'Laptop'
   };
+
   const container = document.getElementById('cartItems');
   cart.forEach(item => {
     const div = document.createElement('div');
-    div.textContent = `${products[item.id]} x${item.qty}`;
+    div.textContent = `${productsMap[item.id] || item.name} x${item.qty}`;
     container.appendChild(div);
   });
-  document.getElementById('cartAddress').textContent = user.address;
+
+  document.getElementById('cartAddress').textContent = user?.address || '';
 }
 
 function editAddress() {
@@ -116,7 +151,7 @@ function goBackToCart() {
 // Orders Page
 if (document.getElementById('ordersList')) {
   const orders = JSON.parse(localStorage.getItem('orders')) || [];
-  const products = {
+  const productsMap = {
     1: 'Smartphone',
     2: 'T-Shirt',
     3: 'Laptop'
@@ -124,7 +159,7 @@ if (document.getElementById('ordersList')) {
   const container = document.getElementById('ordersList');
   orders.forEach(item => {
     const div = document.createElement('div');
-    div.textContent = `${products[item.id]} x${item.qty}`;
+    div.textContent = `${productsMap[item.id] || item.name} x${item.qty}`;
     container.appendChild(div);
   });
 }
@@ -138,5 +173,95 @@ if (document.getElementById('profileName')) {
 }
 
 function editProfile() {
-  window.location.href = 'index.html'; // Or create profile-edit.html if needed
+  window.location.href = 'index.html'; // Or route to a profile-edit page
 }
+
+// cart 
+
+// Sample cart products data
+const cartItems = [
+  { id: 1, name: "Wireless Headphones", quantity: 1 },
+  { id: 2, name: "Bluetooth Speaker", quantity: 2 },
+];
+
+// Get cart container div
+const cartItemsContainer = document.getElementById("cartItems");
+
+// Render products dynamically
+function renderCart() {
+  cartItemsContainer.innerHTML = "";
+
+  if (cartItems.length === 0) {
+    cartItemsContainer.textContent = "Your cart is empty.";
+    return;
+  }
+
+  cartItems.forEach(item => {
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "cart-item";
+
+    // Product name
+    const productInfo = document.createElement("div");
+    productInfo.className = "product-info";
+    productInfo.textContent = item.name;
+
+    // Quantity controls container
+    const quantityControls = document.createElement("div");
+    quantityControls.className = "quantity-controls";
+
+    // Decrease button
+    const btnDecrease = document.createElement("button");
+    btnDecrease.textContent = "-";
+    btnDecrease.onclick = () => {
+      if (item.quantity > 1) {
+        item.quantity--;
+        renderCart();
+      }
+    };
+
+    // Quantity display
+    const qtyDisplay = document.createElement("span");
+    qtyDisplay.textContent = item.quantity;
+
+    // Increase button
+    const btnIncrease = document.createElement("button");
+    btnIncrease.textContent = "+";
+    btnIncrease.onclick = () => {
+      item.quantity++;
+      renderCart();
+    };
+
+    quantityControls.appendChild(btnDecrease);
+    quantityControls.appendChild(qtyDisplay);
+    quantityControls.appendChild(btnIncrease);
+
+    // Remove button
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "remove-btn";
+    removeBtn.textContent = "Remove";
+    removeBtn.onclick = () => {
+      const index = cartItems.findIndex(p => p.id === item.id);
+      if (index !== -1) {
+        cartItems.splice(index, 1);
+        renderCart();
+      }
+    };
+
+    itemDiv.appendChild(productInfo);
+    itemDiv.appendChild(quantityControls);
+    itemDiv.appendChild(removeBtn);
+
+    cartItemsContainer.appendChild(itemDiv);
+  });
+}
+
+// Initial render
+renderCart();
+
+// Edit address button functionality (optional)
+document.getElementById("editAddressBtn").addEventListener("click", () => {
+  const newAddress = prompt("Enter new shipping address:", document.getElementById("cartAddress").textContent);
+  if (newAddress && newAddress.trim() !== "") {
+    document.getElementById("cartAddress").textContent = newAddress.trim();
+  }
+});

@@ -1,20 +1,148 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="style.css">
-  <title>Cart</title>
+  <meta charset="UTF-8" />
+  <title>My Cart</title>
+  <link rel="stylesheet" href="cart.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
-  <div id="header"></div>
-  <div class="cart-container">
-    <h2>Your Cart</h2>
-    <div id="cartItems"></div>
-    <h3>Shipping Address</h3>
-    <p id="cartAddress"></p>
-    <button onclick="editAddress()">Edit Address</button>
-    <br /><br />
-    <button onclick="proceedToPayment()">Proceed</button>
+  <div id="navbar">
+    <div class="nav-left">
+      <a href="home.html">Home</a>
+      <a href="cart.html">My Cart</a>
+      <a href="orders.html">My Orders</a>
+    </div>
+    <div class="nav-right">
+      <span id="welcomeUser">Welcome, Guest</span>
+      <!-- <img id="profileIcon" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" /> -->
+      <a href="profile.html">
+        <img id="profileIcon" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" style="cursor: pointer;" />
+      </a>
+      
+    </div>
   </div>
-  <script src="script.js"></script>
+  <div id="header">Your Cart</div>
+
+  <div class="cart-container">
+    <div id="cartItems"></div>
+
+    <h3>Shipping Address</h3>
+    <p id="cartAddress">No address found.</p>
+    <button id="editAddressBtn">Edit Address</button>
+
+    <br /><br />
+    <a href="/UI/payment.html"><button id="proceedBtn">Proceed</button></a>
+  </div>
+
+  <script>
+    const cartItemsContainer = document.getElementById("cartItems");
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart')) || [];
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function renderCart() {
+      const cart = getCart();
+      cartItemsContainer.innerHTML = "";
+
+      if (cart.length === 0) {
+        cartItemsContainer.textContent = "Your cart is empty.";
+        return;
+      }
+
+      cart.forEach(item => {
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "cart-item";
+
+        const productInfo = document.createElement("div");
+        productInfo.className = "product-info";
+        productInfo.textContent = item.name;
+
+        const quantityControls = document.createElement("div");
+        quantityControls.className = "quantity-controls";
+
+        const btnDecrease = document.createElement("button");
+        btnDecrease.textContent = "-";
+        btnDecrease.onclick = () => {
+          if (item.quantity > 1) {
+            item.quantity--;
+            saveCart(cart);
+            renderCart();
+          }
+        };
+
+        const qtyDisplay = document.createElement("span");
+        qtyDisplay.textContent = item.quantity;
+
+        const btnIncrease = document.createElement("button");
+        btnIncrease.textContent = "+";
+        btnIncrease.onclick = () => {
+          item.quantity++;
+          saveCart(cart);
+          renderCart();
+        };
+
+        quantityControls.appendChild(btnDecrease);
+        quantityControls.appendChild(qtyDisplay);
+        quantityControls.appendChild(btnIncrease);
+
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "remove-btn";
+        removeBtn.textContent = "Remove";
+        removeBtn.onclick = () => {
+          const index = cart.findIndex(p => p.id === item.id);
+          if (index !== -1) {
+            cart.splice(index, 1);
+            saveCart(cart);
+            renderCart();
+          }
+        };
+
+        itemDiv.appendChild(productInfo);
+        itemDiv.appendChild(quantityControls);
+        itemDiv.appendChild(removeBtn);
+
+        cartItemsContainer.appendChild(itemDiv);
+      });
+    }
+
+    // Load user address and name
+    const user = JSON.parse(localStorage.getItem("registeredUser"));
+    if (user) {
+      if (user.address) {
+        document.getElementById("cartAddress").textContent = user.address;
+      }
+      if (user.name) {
+        document.getElementById("welcomeUser").textContent = `Welcome, ${user.name}`;
+      }
+    }
+
+    // Edit address and save back to localStorage
+    document.getElementById("editAddressBtn").addEventListener("click", () => {
+      const addressElement = document.getElementById("cartAddress");
+      const newAddress = prompt("Enter new shipping address:", addressElement.textContent);
+      if (newAddress && newAddress.trim() !== "") {
+        addressElement.textContent = newAddress.trim();
+
+        if (user) {
+          user.address = newAddress.trim();
+          localStorage.setItem("registeredUser", JSON.stringify(user));
+        }
+      }
+    });
+
+    renderCart();
+  </script>
 </body>
 </html>

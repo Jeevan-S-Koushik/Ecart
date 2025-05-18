@@ -6,16 +6,21 @@
   <title>Home</title>
 </head>
 <body>
+
   <div id="navbar">
-    <a href="home.html">Home</a>
-    <a href="cart.html">Cart</a>
-    <a href="orders.html">Orders</a>
-    <a href="payment.html">Payment</a>
-    <a href="profile.html">Profile</a>
-    <a href="login.html">Logout</a>
+    <div class="nav-left">
+      <a href="home.html">Home</a>
+      <a href="cart.html">My Cart</a>
+      <a href="orders.html">My Orders</a>
+    </div>
+    <div class="nav-right">
+      <span id="welcomeUser">Welcome, Guest</span>
+      <img id="profileIcon" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />
+    </div>
   </div>
   
-  <div id="header"></div>
+  <div id="header">Our Products</div>
+  
   <div class="product-search">
     <select id="categoryFilter">
       <option value="all">All Categories</option>
@@ -24,6 +29,7 @@
     </select>
     <div class="product-list" id="productList"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
