@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Payment</title>
+</head>
+<body>
+  <div id="header"></div>
+  <div class="payment-container">
+    <h2>Choose Payment Mode</h2>
+    <select id="paymentMode" onchange="togglePaymentFields()">
+      <option value="credit">Credit Card</option>
+      <option value="upi">UPI</option>
+    </select>
+    <div id="upiField"><input type="text" placeholder="Enter UPI ID" /></div>
+    <div id="cardFields">
+      <input type="text" placeholder="Card No" maxlength="16" />
+      <input type="text" placeholder="Card Holder Name" />
+      <input type="text" placeholder="Expiry Date (MM/YY)" />
+      <input type="text" placeholder="CVV" maxlength="3" />
+    </div>
+    <button onclick="makePayment()">Make Payment</button>
+    <button onclick="goBackToCart()">Back</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

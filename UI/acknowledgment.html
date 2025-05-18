@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Success</title>
+</head>
+<body>
+  <div class="ack-container">
+    <h2 style="color: green">Registration successful.</h2>
+    <p><strong>Customer ID:</strong> <span id="ackId"></span></p>
+    <p><strong>Name:</strong> <span id="ackName"></span></p>
+    <p><strong>Email:</strong> <span id="ackEmail"></span></p>
+    <a href="login.html">Go to Login</a>
+  </div>
+  <script>
+    const user = JSON.parse(localStorage.getItem('registeredUser'));
+    document.getElementById('ackId').textContent = user.id;
+    document.getElementById('ackName').textContent = user.name;
+    document.getElementById('ackEmail').textContent = user.email;
+  </script>
+</body>
+</html>

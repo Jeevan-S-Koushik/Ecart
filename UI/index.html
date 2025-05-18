@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Register</title>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="text" id="name" placeholder="Name" maxlength="50" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <textarea id="address" placeholder="Address" maxlength="100" required></textarea>
+      <input type="password" id="password" placeholder="Password" minlength="10" maxlength="30" required />
+      <button type="submit">Register</button>
+    </form>
+
+    <!-- Conditional login link -->
+    <div id="loginOption" style="text-align: center; margin-top: 15px; display: none;">
+      <p>Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Show login option if user already exists in localStorage
+    if (localStorage.getItem('registeredUser')) {
+      document.getElementById('loginOption').style.display = 'block';
+    }
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
